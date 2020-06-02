@@ -267,7 +267,8 @@ namespace CasseBriques {
 						break;
 					case BARRE_COURTE:
 					int currentL = barre.getMiLargeur();
-					if (currentL==25)
+					//retrecie la barre que si la barre est superieur ou égale a la taille originale
+					if (currentL>= Barre.TAILLE)
 					{
 						barre.setMiLargeur(currentL - 10);
 					}
