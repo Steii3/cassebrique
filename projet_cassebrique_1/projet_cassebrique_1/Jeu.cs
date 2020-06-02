@@ -31,6 +31,8 @@ namespace CasseBriques {
 		private Boule boule;
 		private Mur mur;
 
+		private int vie = 3;
+
 
 
 		public Jeu() {
@@ -112,11 +114,26 @@ namespace CasseBriques {
 										boule.place(boule.getX(), 310 - boule.getRayon());
 									}
 									else {
-										// Si la boule touche le fond ...
-										if (boule.getY() > 310 + barre.getHauteur() - boule.getRayon()) {
-											// Loupé !!
+									// Si la boule touche le fond ...
+									if (boule.getY() > 310 + barre.getHauteur() - boule.getRayon())
+									{
+										// Loupé !!
+										vie--;
+										if (vie == 0)
+											//si le joueur n'as plus de vie, termine le jeux
+										{
 											phase = SORT;
 										}
+										else
+										{
+											// si le joueur a encore de la vie, place la boule sur la 
+											// barre et met en mode attend
+											boule.place(barre.getX(), barre.getY() - boule.getRayon());
+											phase = ATTEND;
+										}
+										
+									}
+										
 									}
 								}
 							}
