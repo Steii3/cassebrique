@@ -20,6 +20,9 @@ namespace CasseBriques {
 							case 2 :
 								mur[l,c]=new BriqueBouleRapide();
 								break;
+							case 3:
+								mur[l, c] = new BriqueBarreRetrecire();
+								break;
 							default :
 								mur[l,c]=new Brique();
 								break;

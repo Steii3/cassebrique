@@ -5,7 +5,7 @@ using System.Drawing.Drawing2D;
 
 namespace CasseBriques {
 	class Barre {
-		private const int TAILLE = 25;
+		public const int TAILLE = 25;
 		// x es la coordonnée horizontale du centre de la barre
 		// et y du haut de la barre
 		private int x, y, miLargeur, hauteur;

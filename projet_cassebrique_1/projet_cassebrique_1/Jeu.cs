@@ -258,14 +258,23 @@ namespace CasseBriques {
 					case NORME :
 						// Retour aux valeurs de base
 						delai = COOL;
+						barre.setMiLargeur(Barre.TAILLE);
 						break;
 
 					case RAPIDE :
 						// Accélération du traitement
 						delai = SPEED;
 						break;
+					case BARRE_COURTE:
+					int currentL = barre.getMiLargeur();
+					if (currentL==25)
+					{
+						barre.setMiLargeur(currentL - 10);
+					}
+					
+					break;
 
-				}
+			}
 			}
 
 		 

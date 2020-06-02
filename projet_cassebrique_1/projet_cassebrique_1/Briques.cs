@@ -51,7 +51,7 @@ namespace CasseBriques {
   private const int NORME=1;
 
     public BriqueRetourNorme() : base() {
-
+			
       couleur=Color.Pink;
     }
 
@@ -77,5 +77,21 @@ namespace CasseBriques {
             return RAPIDE;
         }
     }
+
+	class BriqueBarreRetrecire : Brique
+	{
+		private const int BARRE_COURTE = 3;
+
+		public BriqueBarreRetrecire() : base()
+		{
+			couleur = Color.Blue;
+		}
+
+		public override int choc()
+		{
+			base.choc();
+			return BARRE_COURTE;
+		}
+	}
 
 }
