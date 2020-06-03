@@ -130,6 +130,7 @@ namespace CasseBriques {
 											// barre et met en mode attend
 											boule.place(barre.getX(), barre.getY() - boule.getRayon());
 											phase = ATTEND;
+											modifJeu(1); //reset état negatif quand pert une vie
 										}
 										
 									}
