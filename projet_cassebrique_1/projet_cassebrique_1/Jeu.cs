@@ -31,7 +31,7 @@ namespace CasseBriques {
 		private Boule boule;
 		private Mur mur;
 
-		private int vie = 3;
+		private int vie = 10;
 
 
 
