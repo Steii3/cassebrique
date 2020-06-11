@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
-
+//this is a test to see if the new branch work as intented
 namespace CasseBriques {
 	 public class Jeu : Panel {
 		// Delai entre 2 déplacements
