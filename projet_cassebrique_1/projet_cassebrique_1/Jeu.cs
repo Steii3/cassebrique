@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
@@ -30,8 +31,9 @@ namespace CasseBriques {
 		private Barre barre;
 		private Boule boule;
 		private Mur mur;
-
-		private int vie = 3;
+		private int vie_max = 3;
+		private int vie;
+		private Timer Reset_Etat_Timer;
 
 
 
@@ -45,8 +47,18 @@ namespace CasseBriques {
 
 		public void initialiseNiveau() {
 
-				// Création du mur de brique
-				if (mur==null) {
+			//reinitialise vie et etat negatif a la creation d'une nouvelle partie
+			vie = vie_max;
+			modifJeu(1);
+			//detruit le timer de la partie d'avant avant de le re-créer par precaution
+			if (Reset_Etat_Timer != null)
+			{
+				Reset_Etat_Timer.Dispose();
+			}
+			
+
+			// Création du mur de brique
+			if (mur==null) {
 					mur=new Mur();
 				}
 				mur.construit();
@@ -63,8 +75,28 @@ namespace CasseBriques {
 					action.Tick += new EventHandler(CaRoule);
 				}
 				action.Interval = 20;
+				
 				action.Start();
+
+			// Lancement(si besoin) du timer de reinitialisation d'etat negatif
+				if (Reset_Etat_Timer == null)
+				{
+					Reset_Etat_Timer = new Timer();
+					Reset_Etat_Timer.Tick += new EventHandler(Reset_Etat_Timer_Tick);
+				}
+				Reset_Etat_Timer.Interval = 30000;
+	
+			
+
+			void Reset_Etat_Timer_Tick(object sender, EventArgs e)
+			{
+				//Debug.WriteLine("wow ça marche !!!!");
+				modifJeu(0);
 			}
+
+
+
+		}
 
 		// Traitement central exécuté avec une périodicité précise
 			void CaRoule(Object sender, EventArgs e) {
@@ -75,14 +107,21 @@ namespace CasseBriques {
 					switch (phase) {
 						// Attente de lancement de la boule
 						case ATTEND:
-							// Placement de la boule au milieu de la barre
-							boule.place(barre.getX(), barre.getY() - boule.getRayon());
+						//stop le timer de reinitilisation d'etat si le jeu est en attente
+						Reset_Etat_Timer.Stop();
+						
+						// Placement de la boule au milieu de la barre
+						boule.place(barre.getX(), barre.getY() - boule.getRayon());
 							break;
 
 						// La boule roule
 						case ROULE:
+
+						//reactive le timer de reinitilisation d'etat
+						Reset_Etat_Timer.Start();
+
 							// Déplacement de la boule
-							boule.deplace();
+						boule.deplace();
 							// Rebond sur le bord gauche ?
 							if (boule.getX() < boule.getRayon()) {
 								boule.chocH();
@@ -95,7 +134,7 @@ namespace CasseBriques {
 									boule.place(this.Width - boule.getRayon(), boule.getY());
 								}
 							}
-
+							
 							// Rebond sur le haut ?
 							if (boule.getY() < boule.getRayon()) {
 								boule.chocV();
@@ -126,6 +165,7 @@ namespace CasseBriques {
 										}
 										else
 										{
+
 											// si le joueur a encore de la vie, place la boule sur la 
 											// barre et met en mode attend
 											boule.place(barre.getX(), barre.getY() - boule.getRayon());

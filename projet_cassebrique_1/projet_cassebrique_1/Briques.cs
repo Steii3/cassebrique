@@ -109,7 +109,7 @@ namespace CasseBriques {
 		public override int choc()
 		{
 			
-			Debug.WriteLine("x={0},y={1}, v={2}",x,y,vie_brique); //a ignorer sert au debug
+			//Debug.WriteLine("x={0},y={1}, v={2}",x,y,vie_brique); //a ignorer sert au debug
 			if (vie_brique == 0)
 			{
 				base.choc();

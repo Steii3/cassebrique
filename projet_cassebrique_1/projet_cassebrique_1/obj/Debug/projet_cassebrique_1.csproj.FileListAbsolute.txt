@@ -7,3 +7,21 @@ C:\Users\Travail\Desktop\projet_stage\projet_cassebrique_1\projet_cassebrique_1\
 C:\Users\Travail\Desktop\projet_stage\projet_cassebrique_1\projet_cassebrique_1\bin\Debug\projet_cassebrique_1.pdb
 C:\Users\Travail\Desktop\projet_stage\projet_cassebrique_1\projet_cassebrique_1\obj\Debug\projet_cassebrique_1.exe
 C:\Users\Travail\Desktop\projet_stage\projet_cassebrique_1\projet_cassebrique_1\obj\Debug\projet_cassebrique_1.pdb
+C:\Users\dsrfg\Desktop\projet_stage\projet_cassebrique_1\projet_cassebrique_1\obj\Debug\projet_cassebrique_1.csprojAssemblyReference.cache
+C:\Users\dsrfg\Desktop\projet_stage\projet_cassebrique_1\projet_cassebrique_1\obj\Debug\projet_cassebrique_1.Properties.Resources.resources
+C:\Users\dsrfg\Desktop\projet_stage\projet_cassebrique_1\projet_cassebrique_1\obj\Debug\projet_cassebrique_1.csproj.GenerateResource.cache
+C:\Users\dsrfg\Desktop\projet_stage\projet_cassebrique_1\projet_cassebrique_1\obj\Debug\projet_cassebrique_1.csproj.CoreCompileInputs.cache
+C:\Users\dsrfg\Desktop\projet_stage\projet_cassebrique_1\projet_cassebrique_1\obj\Debug\projet_cassebrique_1.exe
+C:\Users\dsrfg\Desktop\projet_stage\projet_cassebrique_1\projet_cassebrique_1\obj\Debug\projet_cassebrique_1.pdb
+C:\Users\dsrfg\Desktop\projet_stage\projet_cassebrique_1\projet_cassebrique_1\bin\Debug\projet_cassebrique_1.exe.config
+C:\Users\dsrfg\Desktop\projet_stage\projet_cassebrique_1\projet_cassebrique_1\bin\Debug\projet_cassebrique_1.exe
+C:\Users\dsrfg\Desktop\projet_stage\projet_cassebrique_1\projet_cassebrique_1\bin\Debug\projet_cassebrique_1.pdb
+C:\Users\Travail\Desktop\New folder\projet_stage\projet_cassebrique_1\projet_cassebrique_1\bin\Debug\projet_cassebrique_1.exe.config
+C:\Users\Travail\Desktop\New folder\projet_stage\projet_cassebrique_1\projet_cassebrique_1\bin\Debug\projet_cassebrique_1.exe
+C:\Users\Travail\Desktop\New folder\projet_stage\projet_cassebrique_1\projet_cassebrique_1\bin\Debug\projet_cassebrique_1.pdb
+C:\Users\Travail\Desktop\New folder\projet_stage\projet_cassebrique_1\projet_cassebrique_1\obj\Debug\projet_cassebrique_1.csprojAssemblyReference.cache
+C:\Users\Travail\Desktop\New folder\projet_stage\projet_cassebrique_1\projet_cassebrique_1\obj\Debug\projet_cassebrique_1.Properties.Resources.resources
+C:\Users\Travail\Desktop\New folder\projet_stage\projet_cassebrique_1\projet_cassebrique_1\obj\Debug\projet_cassebrique_1.csproj.GenerateResource.cache
+C:\Users\Travail\Desktop\New folder\projet_stage\projet_cassebrique_1\projet_cassebrique_1\obj\Debug\projet_cassebrique_1.csproj.CoreCompileInputs.cache
+C:\Users\Travail\Desktop\New folder\projet_stage\projet_cassebrique_1\projet_cassebrique_1\obj\Debug\projet_cassebrique_1.exe
+C:\Users\Travail\Desktop\New folder\projet_stage\projet_cassebrique_1\projet_cassebrique_1\obj\Debug\projet_cassebrique_1.pdb
