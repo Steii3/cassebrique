@@ -49,7 +49,7 @@ namespace CasseBriques {
 
 			//reinitialise vie et etat negatif a la creation d'une nouvelle partie
 			vie = vie_max;
-			modifJeu(1);
+			modifJeu(NORME);
 			//detruit le timer de la partie d'avant avant de le re-créer par precaution
 			if (Reset_Etat_Timer != null)
 			{
@@ -91,7 +91,8 @@ namespace CasseBriques {
 			void Reset_Etat_Timer_Tick(object sender, EventArgs e)
 			{
 				//Debug.WriteLine("wow ça marche !!!!");
-				modifJeu(0);
+				modifJeu(NORME);
+				Debug.WriteLine("etat negatif supprimé");
 			}
 
 
@@ -170,7 +171,7 @@ namespace CasseBriques {
 											// barre et met en mode attend
 											boule.place(barre.getX(), barre.getY() - boule.getRayon());
 											phase = ATTEND;
-											modifJeu(1); //reset état negatif quand pert une vie
+											modifJeu(NORME); //reset état negatif quand pert une vie
 										}
 										
 									}
@@ -314,6 +315,7 @@ namespace CasseBriques {
 		 void modifJeu(int modif) {
 				switch (modif) {
 					case NORME :
+					
 						// Retour aux valeurs de base
 						delai = COOL;
 						barre.setMiLargeur(Barre.TAILLE);
