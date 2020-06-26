@@ -1,9 +1,17 @@
-﻿namespace CasseBriques {
-	partial class CB {
-		/// <summary>
-		/// Variable nécessaire au concepteur.
-		/// </summary>
-		private System.ComponentModel.IContainer components = null;
+﻿using System.Diagnostics;
+using System.Drawing.Printing;
+
+namespace CasseBriques {
+
+    public partial class CB {
+        
+        
+
+        
+        /// <summary>
+        /// Variable nécessaire au concepteur.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
 
 		/// <summary>
 		/// Nettoyage des ressources utilisées.
@@ -17,7 +25,7 @@
 		}
 
 		#region Code généré par le Concepteur Windows Form
-
+        
 		/// <summary>
 		/// Méthode requise pour la prise en charge du concepteur - ne modifiez pas
 		/// le contenu de cette méthode avec l'éditeur de code.
@@ -46,11 +54,11 @@
             // 
             this.jeuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.nouveauToolStripMenuItem,
-            this.toolStripMenuItem2,
             this.quitterToolStripMenuItem});
             this.jeuToolStripMenuItem.Name = "jeuToolStripMenuItem";
             this.jeuToolStripMenuItem.Size = new System.Drawing.Size(36, 20);
             this.jeuToolStripMenuItem.Text = "&Jeu";
+
             // 
             // nouveauToolStripMenuItem
             // 
@@ -105,8 +113,10 @@
 		private System.Windows.Forms.MenuStrip menuStrip1;
 		private System.Windows.Forms.ToolStripMenuItem jeuToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem nouveauToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
-		private System.Windows.Forms.ToolStripMenuItem quitterToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+
+
+        private System.Windows.Forms.ToolStripMenuItem quitterToolStripMenuItem;
 		private Jeu EspaceJeu;
 
 	}

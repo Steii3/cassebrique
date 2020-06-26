@@ -10,7 +10,7 @@ namespace CasseBriques {
 		// et y du haut de la barre
 		private int x, y, miLargeur, hauteur;
 		private Color couleur;
-
+		
 		public Barre() {
 			x=175;
 			y=310;
