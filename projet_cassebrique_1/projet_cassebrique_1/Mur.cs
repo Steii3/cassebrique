@@ -9,8 +9,8 @@ namespace CasseBriques
     {
         
         
-        const int nbrcol = 3; // 10
-        const int nbrligne = 1; //20
+        const int nbrcol = 10; // 10
+        const int nbrligne = 20; //20
         int nbBriques = nbrcol * nbrligne;
         int pourcentBriqueSpeciale = 25;//probabité que la brique soit spéciale (ici 25%)
         
@@ -40,8 +40,9 @@ namespace CasseBriques
 
 
             // Affectaion aléatoire de briques au mur
-            Random R = new Random();
-            Random RandomSpecial = new Random();
+            Random R = new Random(); //choisit quel brique spéciale choisir
+            Random RandomSpecial = new Random(); //choisit si la brique est normale ou spéciale
+            Random RandomSpecialNegatif = new Random(); //choisit si la brique spéciale est positive ou negative
             for (int l = 0; l < nbrcol; l++)
             {
                 for (int c = 0; c < nbrligne; c++)
@@ -52,7 +53,7 @@ namespace CasseBriques
                     }
                     else
                     { //si la brique est spéciale, choisit aléatoirement laquel
-                        switch (R.Next(4)) //a changer suivant le nombre de brique
+                        switch (R.Next(5)) //a changer suivant le nombre de brique
                         {
 
                             case 0:
@@ -67,13 +68,17 @@ namespace CasseBriques
                             case 3:
                                 mur[l, c] = new Brique3coup();
                                 break;
-                            
+                            case 4:
+                                mur[l, c] = new Brique2boules();
+                                break;
+
 
                         }
                     }
                     //switch (R.Next(difficulty))
                     //{
 
+                    
                     //    case 1:
                     //        mur[l, c] = new BriqueRetourNorme();
                     //        break;

@@ -97,7 +97,7 @@ namespace CasseBriques {
 
 	class Brique3coup : Brique
 	{
-		private int vie_brique = 2;
+		private int vie_brique = 4;
 		
 
 		public Brique3coup() : base()
@@ -108,22 +108,47 @@ namespace CasseBriques {
 
 		public override int choc()
 		{
-			
+
 			//Debug.WriteLine("x={0},y={1}, v={2}",x,y,vie_brique); //a ignorer sert au debug
+			vie_brique--;
 			if (vie_brique == 0)
 			{
 				base.choc();
 			}
-			else 
-			{ 
-				vie_brique--;
-				if (vie_brique == 1)
-				{
-					couleur = Color.Gray;
-				}
-				
+			else if (vie_brique == 2) 
+			{
+
+				couleur = Color.Gray;
 			}
+			else if (vie_brique == 1)
+			{
+
+				couleur = Color.LightGray;
+			}
+
+			
 			return SIMPLE;
+
+		}
+	}
+	class Brique2boules : Brique
+	{
+
+		private const int DOUBLE_BOULE = 4;
+
+		public Brique2boules() : base()
+		{
+
+			couleur = Color.Green;
+			
+		}
+
+		public override int choc()
+		{
+			base.choc();
+			return DOUBLE_BOULE;
+			//Debug.WriteLine("x={0},y={1}, v={2}",x,y,vie_brique); //a ignorer sert au debug
+
 		}
 	}
 

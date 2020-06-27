@@ -8,7 +8,19 @@ namespace CasseBriques {
 		private int x, y, depX, depY, rayon, vitesse;
 		private Color couleur;
 
+
+		public Boule(int un_x,int un_y)
+		{
+
+			rayon = 4;
+			x = un_x;
+			y = un_y - rayon;
+			couleur = Color.Blue;
+			vitesse = 5;
+			angleDep(new Random().Next(120) + 30);
+		}
 		public Boule() {
+			
 			rayon = 4;
 			x = 175;
 			y = 310 - rayon;

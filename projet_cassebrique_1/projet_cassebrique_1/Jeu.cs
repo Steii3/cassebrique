@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -23,32 +24,37 @@ namespace CasseBriques
         private const int SIMPLE = 0;
         private const int NORME = 1;
         private const int RAPIDE = 2;
-        private const int SOLIDE = 0;
         private const int BARRE_COURTE = 3;
-
+        private const int DOUBLE_BOULE = 4;
         // Champs d'instance
         private Timer action;
         private int delai;
         private int phase;
         private Barre barre;
-        private Boule boule;
+        private Boule boule1;
         private Mur mur;
-        private int vie_max = 2;
+        private int vie_max = 3;
         private int vie;
         private Timer Reset_Etat_Timer;
         private int niveau = 1;
         private int difficulté = 20;
         bool fini;
 
-
-
+        List<Boule> listeBoule = new List<Boule>();
+       
         public Jeu()
         {
 
             // Création de la barre
             barre = new Barre();
             // Création de la boule
-            boule = new Boule();
+            boule1 = new Boule();
+            listeBoule.Add(boule1);
+           
+            
+            
+
+
         }
 
         public void initialiseNiveau()
@@ -93,8 +99,11 @@ namespace CasseBriques
                 action = new Timer();
                 action.Tick += new EventHandler(CaRoule);
             }
-            action.Interval = 20; //20
 
+            int nbrBoules = listeBoule.Count;
+            
+            action.Interval =  20 ; //20
+            
             action.Start();
 
             // Lancement(si besoin) du timer de reinitialisation d'etat negatif
@@ -122,171 +131,160 @@ namespace CasseBriques
         void CaRoule(Object sender, EventArgs e)
         {
 
-
-
-
             fini = false;
-
-
-
-
 
             int cpt = 0;
             while (cpt < delai && fini == false)
             {
-                // Selon la phase du jeu ...
-                switch (phase)
+                foreach (Boule boule in listeBoule.ToArray())
                 {
-                    // Attente de lancement de la boule
-                    case ATTEND:
-                        //stop le timer de reinitilisation d'etat si le jeu est en attente
-                        Reset_Etat_Timer.Stop();
+                    // Selon la phase du jeu ...
+                    switch (phase)
+                    {
 
-                        // Placement de la boule au milieu de la barre
-                        boule.place(barre.getX(), barre.getY() - boule.getRayon());
-                        break;
+                        // Attente de lancement de la boule
+                        case ATTEND:
 
-                    // La boule roule
-                    case ROULE:
+                            //stop le timer de reinitilisation d'etat si le jeu est en attente
+                            Reset_Etat_Timer.Stop();
 
-                        //reactive le timer de reinitilisation d'etat
-                        Reset_Etat_Timer.Start();
+                            // Placement de la boule au milieu de la barre
+                            boule.place(barre.getX(), barre.getY() - boule.getRayon());
+                            break;
 
-                        // Déplacement de la boule
-                        boule.deplace();
-                        // Rebond sur le bord gauche ?
-                        if (boule.getX() < boule.getRayon())
-                        {
-                            boule.chocH();
-                            boule.place(boule.getRayon(), boule.getY());
-                        }
-                        else
-                        {
-                            // Rebond sur le bord droit ?
-                            if (boule.getX() > this.Width - boule.getRayon())
+                        // La boule roule
+                        case ROULE:
+
+                            //reactive le timer de reinitilisation d'etat
+                            Reset_Etat_Timer.Start();
+
+                            // Déplacement de la boule
+
+                            boule.deplace();
+                            // Rebond sur le bord gauche ?
+                            if (boule.getX() < boule.getRayon())
                             {
                                 boule.chocH();
-                                boule.place(this.Width - boule.getRayon(), boule.getY());
-                            }
-                        }
-                        // Rebond sur le haut ?
-                        if (boule.getY() < boule.getRayon())
-                        {
-                            boule.chocV();
-                            boule.place(boule.getX(), boule.getRayon());
-                        }
-                        else
-                        {
-                            // Rebond (ou non) sur la barre ?
-                            if (boule.getY() > 310 - boule.getRayon())
-                            {
-                                if ((boule.getX() - boule.getRayon() < barre.getX() + barre.getMiLargeur())
-                                    &&
-                                        (boule.getX() + boule.getRayon() > barre.getX() - barre.getMiLargeur()))
-                                {
-                                    // Rebond sur la barre
-                                    // Le rebond dépend de la zone de la barre touchée
-                                    rebondSurBarre(boule.getX() - barre.getX());
-
-                                    boule.place(boule.getX(), 310 - boule.getRayon());
-                                }
-                                else
-                                {
-                                    // Si la boule touche le fond ...
-                                    if (boule.getY() > 310 + barre.getHauteur() - boule.getRayon())
-                                    {
-                                        // Loupé !!
-                                        vie--;
-                                        if (vie == 0)
-                                        //si le joueur n'as plus de vie, termine le jeux
-                                        {
-                                            phase = SORT;
-                                        }
-                                        else
-                                        {
-
-                                            // si le joueur a encore de la vie, place la boule sur la 
-                                            // barre et met en mode attend
-                                            boule.place(barre.getX(), barre.getY() - boule.getRayon());
-                                            phase = ATTEND;
-                                            modifJeu(NORME); //reset état negatif quand pert une vie
-                                        }
-
-                                    }
-
-                                }
-                            }
-                        }
-                        // Gestion du choc avec une brique
-                        // Récupération de la hauteur d'une brique
-                        int hauteur = mur.getHauteurBrique();
-                        // Récupération de la largeur d'une brique
-                        int largeur = mur.getLargeurBrique();
-                        // Si la boule se trouve dans la zone du mur de briques ...
-                        if (boule.getY() - boule.getRayon() < 10 * (hauteur + 1))
-                        {
-                            // l1, c1 sont les coordonnées du coin supérieur gauche de la boule
-                            // l2, c2 sont les coordonnées du coin inférieur droit de la boule
-                            int l1, l2, c1, c2;
-                            l1 = (int)((boule.getY() - boule.getRayon()) / (hauteur + 1));
-                            l2 = (int)((boule.getY() + boule.getRayon()) / (hauteur + 1));
-                            c1 = (int)((boule.getX() - boule.getRayon()) / (largeur + 1));
-                            c2 = (int)((boule.getX() + boule.getRayon()) / (largeur + 1));
-
-                            // Le rebond dépend des coins (1 ou 2) en contact avec une brique
-                            // Coin supérieur gauche ...
-                            if (mur.percute(l1, c1))
-                            {
-                                // et coin supérieur droit
-                                if (mur.percute(l1, c2))
-                                {
-                                    // Choc vertical
-                                    boule.chocV();
-                                }
-                                else
-                                {
-                                    // et coin inférieur gauche
-                                    if (mur.percute(l2, c1))
-                                    {
-                                        // Choc horizontal
-                                        boule.chocH();
-                                    }
-                                    else
-                                    {
-                                        // Double choc
-                                        boule.chocV();
-                                        boule.chocH();
-                                    }
-                                }
+                                boule.place(boule.getRayon(), boule.getY());
                             }
                             else
                             {
-                                // Coin supérieur droit ...
-                                if (mur.percute(l1, c2))
+                                // Rebond sur le bord droit ?
+                                if (boule.getX() > this.Width - boule.getRayon())
                                 {
-                                    // et coin inférieur droit
-                                    if (mur.percute(l2, c2))
+                                    boule.chocH();
+                                    boule.place(this.Width - boule.getRayon(), boule.getY());
+                                }
+                            }
+                            // Rebond sur le haut ?
+                            if (boule.getY() < boule.getRayon())
+                            {
+                                boule.chocV();
+                                boule.place(boule.getX(), boule.getRayon());
+                            }
+                            else
+                            {
+                                // Rebond (ou non) sur la barre ?
+                                if (boule.getY() > 310 - boule.getRayon())
+                                {
+                                    if ((boule.getX() - boule.getRayon() < barre.getX() + barre.getMiLargeur())
+                                        &&
+                                            (boule.getX() + boule.getRayon() > barre.getX() - barre.getMiLargeur()))
                                     {
-                                        // Choc horizontal
-                                        boule.chocH();
+                                        // Rebond sur la barre
+                                        // Le rebond dépend de la zone de la barre touchée
+                                        rebondSurBarre(boule.getX() - barre.getX(), boule);
+
+                                        boule.place(boule.getX(), 310 - boule.getRayon());
                                     }
                                     else
                                     {
-                                        // Double choc
+                                        // Si la boule touche le fond ...
+                                        if (boule.getY() > 310 + barre.getHauteur() - boule.getRayon())
+                                        {
+                                            // Loupé !!
+                                            if (listeBoule.Count > 1)
+                                            {
+                                                listeBoule.RemoveAt(listeBoule.IndexOf(boule));
+                                                // Loupé !!
+                                            }
+                                            else
+                                            {
+                                                vie--;
+                                                if (vie == 0)
+                                                //si le joueur n'as plus de vie, termine le jeux
+                                                {
+                                                    phase = SORT;
+                                                }
+                                                else
+                                                {
+
+                                                    // si le joueur a encore de la vie, place la boule sur la 
+                                                    // barre et met en mode attend
+                                                    boule.place(barre.getX(), barre.getY() - boule.getRayon());
+                                                    phase = ATTEND;
+                                                    modifJeu(NORME); //reset état negatif quand pert une vie
+                                                }
+                                            }
+                                                
+
+                                        }
+
+                                    }
+                                }
+                            }
+                            // Gestion du choc avec une brique
+                            // Récupération de la hauteur d'une brique
+                            int hauteur = mur.getHauteurBrique();
+                            // Récupération de la largeur d'une brique
+                            int largeur = mur.getLargeurBrique();
+                            // Si la boule se trouve dans la zone du mur de briques ...
+                            if (boule.getY() - boule.getRayon() < 10 * (hauteur + 1))
+                            {
+                                // l1, c1 sont les coordonnées du coin supérieur gauche de la boule
+                                // l2, c2 sont les coordonnées du coin inférieur droit de la boule
+                                int l1, l2, c1, c2;
+                                l1 = (int)((boule.getY() - boule.getRayon()) / (hauteur + 1));
+                                l2 = (int)((boule.getY() + boule.getRayon()) / (hauteur + 1));
+                                c1 = (int)((boule.getX() - boule.getRayon()) / (largeur + 1));
+                                c2 = (int)((boule.getX() + boule.getRayon()) / (largeur + 1));
+
+                                // Le rebond dépend des coins (1 ou 2) en contact avec une brique
+                                // Coin supérieur gauche ...
+                                if (mur.percute(l1, c1))
+                                {
+                                    // et coin supérieur droit
+                                    if (mur.percute(l1, c2))
+                                    {
+                                        // Choc vertical
                                         boule.chocV();
-                                        boule.chocH();
+                                    }
+                                    else
+                                    {
+                                        // et coin inférieur gauche
+                                        if (mur.percute(l2, c1))
+                                        {
+                                            // Choc horizontal
+                                            boule.chocH();
+                                        }
+                                        else
+                                        {
+                                            // Double choc
+                                            boule.chocV();
+                                            boule.chocH();
+                                        }
                                     }
                                 }
                                 else
                                 {
-                                    // Coin inférieur gauche ...
-                                    if (mur.percute(l2, c1))
+                                    // Coin supérieur droit ...
+                                    if (mur.percute(l1, c2))
                                     {
                                         // et coin inférieur droit
                                         if (mur.percute(l2, c2))
                                         {
-                                            // Choc vertical
-                                            boule.chocV();
+                                            // Choc horizontal
+                                            boule.chocH();
                                         }
                                         else
                                         {
@@ -297,55 +295,75 @@ namespace CasseBriques
                                     }
                                     else
                                     {
-                                        // Coin inférieur droit
-                                        if (mur.percute(l2, c2))
+                                        // Coin inférieur gauche ...
+                                        if (mur.percute(l2, c1))
                                         {
-                                            // Double choc
-                                            boule.chocV();
-                                            boule.chocH();
+                                            // et coin inférieur droit
+                                            if (mur.percute(l2, c2))
+                                            {
+                                                // Choc vertical
+                                                boule.chocV();
+                                            }
+                                            else
+                                            {
+                                                // Double choc
+                                                boule.chocV();
+                                                boule.chocH();
+                                            }
+                                        }
+                                        else
+                                        {
+                                            // Coin inférieur droit
+                                            if (mur.percute(l2, c2))
+                                            {
+                                                // Double choc
+                                                boule.chocV();
+                                                boule.chocH();
+                                            }
                                         }
                                     }
                                 }
+                                // Casse effective des brique du mur
+                                //(et mise en place des conséquences)
+                                modifJeu(mur.casse(l1, c1));
+                                modifJeu(mur.casse(l1, c2));
+                                modifJeu(mur.casse(l2, c1));
+                                modifJeu(mur.casse(l2, c2));
+
+                                // Si toutes les briques sont cassées ...
+                                if (mur.getNbBriques() == 0)
+                                {
+                                    // Le joueur à gagné
+                                    phase = GAGNE;
+                                }
                             }
-                            // Casse effective des brique du mur
-                            //(et mise en place des conséquences)
-                            modifJeu(mur.casse(l1, c1));
-                            modifJeu(mur.casse(l1, c2));
-                            modifJeu(mur.casse(l2, c1));
-                            modifJeu(mur.casse(l2, c2));
+                            break;
 
-                            // Si toutes les briques sont cassées ...
-                            if (mur.getNbBriques() == 0)
-                            {
-                                // Le joueur à gagné
-                                phase = GAGNE;
-                            }
-                        }
-                        break;
+                        case SORT:
+                            action.Stop();
+                            MessageBox.Show(this, "C'est perdu ! vous avez tenu " + niveau + " niveau !", "Casse briques", MessageBoxButtons.OK);
+                            fini = true;
+                            break;
 
-                    case SORT:
-                        action.Stop();
-                        MessageBox.Show(this, "C'est perdu ! vous avez tenu "+niveau+ " niveau !", "Casse briques", MessageBoxButtons.OK);
-                        fini = true;
-                        break;
+                        case GAGNE:
+                            action.Stop();
+                            MessageBox.Show(this, "Bravo, vous fini le niveau " + niveau + " !\nLa difficulté augmente !", "Casse briques", MessageBoxButtons.OK);
+                            niveau++;
+                            initialiseNiveau();
+                            fini = true;
+                            break;
+                    }
 
-                    case GAGNE:
-                        action.Stop();
-                        MessageBox.Show(this, "Bravo, vous fini le niveau " + niveau + " !\nLa difficulté augmente !", "Casse briques", MessageBoxButtons.OK);
-                        niveau++;
-                        initialiseNiveau();
-                        fini = true;
-                        break;
+                    // on redessine l'espace de jeu
+                    Dessiner();
+
+                    cpt++;
                 }
-
-                // on redessine l'espace de jeu
-                Dessiner();
-
-                cpt++;
+                
             }
         }
 
-        void rebondSurBarre(int impact)
+        void rebondSurBarre(int impact, Boule boule)
         {
             // Rebond sur la barre
             boule.chocV();
@@ -394,13 +412,16 @@ namespace CasseBriques
                     }
 
                     break;
+                case DOUBLE_BOULE:
+                    listeBoule.Add(new Boule( listeBoule[0].getX() , listeBoule[0].getY() ));
+                    break;
 
             }
         }
 
 
 
-        void lanceBoule(int angle)
+        void lanceBoule(int angle, Boule boule)
         {
             if (phase == ATTEND)
             {
@@ -418,7 +439,11 @@ namespace CasseBriques
             // Dessin de la barre
             barre.dessine(ZoneJeu);
             // Dessin de la boule
-            boule.dessine(ZoneJeu);
+            foreach (Boule boule in listeBoule.ToArray())
+            {
+                boule.dessine(ZoneJeu);
+            }
+            
             // Dessin du mur de brique
             // Au tout départ le mur n'existe pas
             if (mur != null)
@@ -446,7 +471,7 @@ namespace CasseBriques
 
         public void EspaceJeu_MouseClick(object sender, MouseEventArgs e)
         {
-            lanceBoule(new Random().Next(120) + 30);
+            lanceBoule(new Random().Next(120) + 30, listeBoule[0]);
         }
 
     }
