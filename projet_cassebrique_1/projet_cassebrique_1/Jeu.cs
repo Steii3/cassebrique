@@ -127,17 +127,26 @@ namespace CasseBriques
 
         }
 
+        void changeTickRate()
+        {
+            int valeurInterval = (20 / listeBoule.Count);
+            //int rounded = Convert.ToInt32(Math.Round(nbr, 0)); // round the number and convert it to a int
+  
+            action.Interval = valeurInterval; //20
+        }
         // Traitement central exécuté avec une périodicité précise
         void CaRoule(Object sender, EventArgs e)
         {
-
+            changeTickRate();
             fini = false;
 
             int cpt = 0;
             while (cpt < delai && fini == false)
             {
+
                 foreach (Boule boule in listeBoule.ToArray())
                 {
+                    
                     // Selon la phase du jeu ...
                     switch (phase)
                     {
