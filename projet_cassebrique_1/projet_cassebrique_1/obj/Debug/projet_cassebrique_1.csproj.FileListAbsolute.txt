@@ -25,3 +25,5 @@ C:\Users\Travail\Desktop\New folder\projet_stage\projet_cassebrique_1\projet_cas
 C:\Users\Travail\Desktop\New folder\projet_stage\projet_cassebrique_1\projet_cassebrique_1\obj\Debug\projet_cassebrique_1.csproj.CoreCompileInputs.cache
 C:\Users\Travail\Desktop\New folder\projet_stage\projet_cassebrique_1\projet_cassebrique_1\obj\Debug\projet_cassebrique_1.exe
 C:\Users\Travail\Desktop\New folder\projet_stage\projet_cassebrique_1\projet_cassebrique_1\obj\Debug\projet_cassebrique_1.pdb
+C:\Users\Travail\Desktop\projet_stage\projet_cassebrique_1\projet_cassebrique_1\obj\Debug\projet_cassebrique_1.créer_niveau.resources
+C:\Users\Travail\Desktop\projet_stage\projet_cassebrique_1\projet_cassebrique_1\obj\Debug\CasseBriques.CB.resources

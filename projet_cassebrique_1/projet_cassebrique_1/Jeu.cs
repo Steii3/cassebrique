@@ -5,11 +5,12 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
-//this is a test to see if the new branch work as intented
+
 namespace CasseBriques
 {
     public class Jeu : Panel
     {
+        
         // Delai entre 2 déplacements
         private const int COOL = 2;
         private const int SPEED = 3;
@@ -50,43 +51,33 @@ namespace CasseBriques
             // Création de la boule
             boule1 = new Boule();
             listeBoule.Add(boule1);
-           
-            
-            
-
-
         }
 
         public void initialiseNiveau()
         {
-
+            
             //reinitialise vie et etat negatif a la creation d'une nouvelle partie
             vie = vie_max;
             modifJeu(NORME);
             fini = false;
+
             //detruit le timer de la partie d'avant avant de le re-créer par precaution
             if (Reset_Etat_Timer != null)
             {
                 Reset_Etat_Timer.Dispose();
             }
 
-
             // Création du mur de brique
-
-
-
             if (difficulté != 100)
-            {
-                for (int i = 1; i < niveau; i++)
+            { for (int i = 1; i < niveau; i++)
                 {
                     difficulté += 10;
                 }
             }
 
             mur = new Mur(difficulté);
-
             mur.construit();
-
+            
             // Délai entre 2 déplacements
             delai = COOL;
 

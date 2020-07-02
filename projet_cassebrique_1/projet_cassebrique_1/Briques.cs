@@ -4,7 +4,7 @@ using System.Drawing.Drawing2D;
 using System.Diagnostics;
 
 namespace CasseBriques {
-	class Brique {
+	public class Brique {
 		protected const int SIMPLE=0;
 		protected int x, y, largeur, hauteur;
 		protected Color couleur;

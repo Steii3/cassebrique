@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
-
+using System.Xml;
+using System.Xml.Serialization;
 namespace CasseBriques
 {
-    class Mur
+    public class Mur
     {
         
         
@@ -17,13 +19,16 @@ namespace CasseBriques
         public Mur(int unPourcentBriqueSpeciale)
         {
             pourcentBriqueSpeciale = unPourcentBriqueSpeciale;
-            
-
         }
-
+        public Mur()
+        {
+            
+        }
         Brique[,] mur = new Brique[nbrcol, nbrligne];
 
 
+        //List<> listeBriques = new List<Brique>() { };
+        
 
         //mur = new Brique[10, 20];
 
@@ -32,7 +37,35 @@ namespace CasseBriques
 
 
 
+        public void ChangeBrique(int unX, int unY,int Brique)
+        {
+            switch (Brique) //a changer suivant le nombre de brique
+            {
+                
+                case 0:
+                    mur[unX, unY] = new BriqueRetourNorme();
+                    break;
+                case 1:
+                    mur[unX, unY] = new BriqueBouleRapide();
+                    break;
+                case 2:
+                    mur[unX, unY] = new BriqueBarreRetrecire();
+                    break;
+                case 3:
+                    mur[unX, unY] = new Brique3coup();
+                    break;
+                case 4:
+                    mur[unX, unY] = new Brique2boules();
+                    break;
+                default:
+                    mur[unX, unY] = new Brique();
+                    break;
 
+
+            }
+            
+            mur[unX, unY].positionne(unY * (mur[unX, unY].getLargeur() + 1), unX * (mur[unX, unY].getHauteur() + 1));
+        }
 
 
         public void construit()
@@ -75,26 +108,7 @@ namespace CasseBriques
 
                         }
                     }
-                    //switch (R.Next(difficulty))
-                    //{
 
-                    
-                    //    case 1:
-                    //        mur[l, c] = new BriqueRetourNorme();
-                    //        break;
-                    //    case 2:
-                    //        mur[l, c] = new BriqueBouleRapide();
-                    //        break;
-                    //    case 3:
-                    //        mur[l, c] = new BriqueBarreRetrecire();
-                    //        break;
-                    //    case 4:
-                    //        mur[l, c] = new Brique3coup();
-                    //        break;
-                    //    default:
-                    //        mur[l, c] = new Brique();
-                    //        break;
-                    //}
                     mur[l, c].positionne(c * (mur[l, c].getLargeur() + 1), l * (mur[l, c].getHauteur() + 1));
                 }
                 
@@ -102,6 +116,22 @@ namespace CasseBriques
             
         }
 
+        public void Sauvegarder()
+        {
+            XmlSerializer xsSubmit = new XmlSerializer(typeof(Mur));
+            
+            var xml = "";
+
+            using (var sww = new StringWriter())
+            {
+                using (XmlWriter writer = XmlWriter.Create(sww))
+                {
+                    xsSubmit.Serialize(writer, mur);
+                    xml = sww.ToString(); // Your XML
+                }
+            }
+        }
+        
         public bool percute(int l, int c)
         {
 

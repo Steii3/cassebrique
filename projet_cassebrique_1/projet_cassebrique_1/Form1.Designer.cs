@@ -3,7 +3,7 @@ using System.Drawing.Printing;
 
 namespace CasseBriques {
 
-    public partial class CB {
+    partial class CB {
         
         
 
@@ -34,8 +34,11 @@ namespace CasseBriques {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.jeuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nouveauToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.CreateLVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.niveauToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.LoadLVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.EspaceJeu = new CasseBriques.Jeu();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -43,7 +46,8 @@ namespace CasseBriques {
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.jeuToolStripMenuItem});
+            this.jeuToolStripMenuItem,
+            this.niveauToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(361, 24);
@@ -58,14 +62,43 @@ namespace CasseBriques {
             this.jeuToolStripMenuItem.Name = "jeuToolStripMenuItem";
             this.jeuToolStripMenuItem.Size = new System.Drawing.Size(36, 20);
             this.jeuToolStripMenuItem.Text = "&Jeu";
-
             // 
             // nouveauToolStripMenuItem
             // 
             this.nouveauToolStripMenuItem.Name = "nouveauToolStripMenuItem";
-            this.nouveauToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.nouveauToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.nouveauToolStripMenuItem.Text = "&Nouveau";
             this.nouveauToolStripMenuItem.Click += new System.EventHandler(this.nouveauToolStripMenuItem_Click);
+            // 
+            // CreateLVToolStripMenuItem
+            // 
+            this.CreateLVToolStripMenuItem.Name = "CreateLVToolStripMenuItem";
+            this.CreateLVToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.CreateLVToolStripMenuItem.Text = "&Créer niveau";
+            this.CreateLVToolStripMenuItem.Click += new System.EventHandler(this.CreateLVToolStripMenuItem_Click);
+            // 
+            // quitterToolStripMenuItem
+            // 
+            this.quitterToolStripMenuItem.Name = "quitterToolStripMenuItem";
+            this.quitterToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.quitterToolStripMenuItem.Text = "&Quitter";
+            this.quitterToolStripMenuItem.Click += new System.EventHandler(this.quitterToolStripMenuItem_Click);
+            // 
+            // niveauToolStripMenuItem
+            // 
+            this.niveauToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.CreateLVToolStripMenuItem,
+            this.LoadLVToolStripMenuItem});
+            this.niveauToolStripMenuItem.Name = "niveauToolStripMenuItem";
+            this.niveauToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
+            this.niveauToolStripMenuItem.Text = "&Niveau";
+            // 
+            // LoadLVToolStripMenuItem
+            // 
+            this.LoadLVToolStripMenuItem.Name = "LoadLVToolStripMenuItem";
+            this.LoadLVToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.LoadLVToolStripMenuItem.Text = "&Lancer niveau";
+            this.LoadLVToolStripMenuItem.Click += new System.EventHandler(this.LoadLVToolStripMenuItem_Click);
             // 
             // toolStripMenuItem2
             // 
@@ -73,21 +106,14 @@ namespace CasseBriques {
             this.toolStripMenuItem2.Size = new System.Drawing.Size(134, 22);
             this.toolStripMenuItem2.Text = "---------------";
             // 
-            // quitterToolStripMenuItem
-            // 
-            this.quitterToolStripMenuItem.Name = "quitterToolStripMenuItem";
-            this.quitterToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
-            this.quitterToolStripMenuItem.Text = "&Quitter";
-            this.quitterToolStripMenuItem.Click += new System.EventHandler(this.quitterToolStripMenuItem_Click);
-            // 
             // EspaceJeu
             // 
             this.EspaceJeu.Location = new System.Drawing.Point(1, 26);
             this.EspaceJeu.Name = "EspaceJeu";
             this.EspaceJeu.Size = new System.Drawing.Size(360, 340);
             this.EspaceJeu.TabIndex = 1;
-            this.EspaceJeu.MouseMove += new System.Windows.Forms.MouseEventHandler(this.EspaceJeu_MouseMove);
             this.EspaceJeu.MouseClick += new System.Windows.Forms.MouseEventHandler(this.EspaceJeu_MouseClick);
+            this.EspaceJeu.MouseMove += new System.Windows.Forms.MouseEventHandler(this.EspaceJeu_MouseMove);
             // 
             // CB
             // 
@@ -112,13 +138,18 @@ namespace CasseBriques {
 
 		private System.Windows.Forms.MenuStrip menuStrip1;
 		private System.Windows.Forms.ToolStripMenuItem jeuToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem nouveauToolStripMenuItem;
+        
+        private System.Windows.Forms.ToolStripMenuItem nouveauToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
-
-
         private System.Windows.Forms.ToolStripMenuItem quitterToolStripMenuItem;
-		private Jeu EspaceJeu;
 
-	}
+        private System.Windows.Forms.ToolStripMenuItem niveauToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem CreateLVToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem LoadLVToolStripMenuItem;
+
+		private Jeu EspaceJeu;
+        
+
+    }
 }
 
