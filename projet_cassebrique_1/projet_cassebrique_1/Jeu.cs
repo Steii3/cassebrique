@@ -357,6 +357,8 @@ namespace CasseBriques
                             break;
 
                         case SORT:
+
+
                             action.Stop();
 
                             if (loadedLevel == true )
@@ -368,11 +370,20 @@ namespace CasseBriques
                             break;
 
                         case GAGNE:
+
                             action.Stop();
 
-                            MessageBox.Show(this, "Bravo, vous fini le niveau " + niveau + " !\nLa difficulté augmente !", "Casse briques", MessageBoxButtons.OK);
-                            niveau++;
-                            initialiseNiveau();
+                            if (loadedLevel == true )
+                            {
+                                MessageBox.Show(this, "Bravo, vous fini le niveau ", "Casse briques", MessageBoxButtons.OK);
+                            }
+                            else
+                            {
+                                MessageBox.Show(this, "Bravo, vous fini le niveau " + niveau + " !\nLa difficulté augmente !", "Casse briques", MessageBoxButtons.OK);
+                                niveau++;
+                                initialiseNiveau();
+                            }
+                                
                             fini = true;
                             break;
                     }

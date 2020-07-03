@@ -27,9 +27,27 @@ namespace CasseBriques
         }
         Brique[,] mur = new Brique[nbrcol, nbrligne];
 
+        public int getNbBriques()
+        {
+            return nbBriques;
+        }
+        public void calculate_nbBrique()
+        {
+            nbBriques = 0;
+            for (int l = 0; l < nbrcol; l++)
+            {
+                for (int c = 0; c < nbrligne; c++)
+                {
+                    if (mur[l, c].isDetruite() == false)
+                    {
+                        nbBriques++;
+                    }
+                }
+            }
+        }
 
         //List<> listeBriques = new List<Brique>() { };
-        
+
 
         //mur = new Brique[10, 20];
 
@@ -216,10 +234,7 @@ namespace CasseBriques
             return consequence;
         }
 
-        public int getNbBriques()
-        {
-            return nbBriques;
-        }
+        
 
         public int getLargeurBrique()
         {

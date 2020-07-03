@@ -49,9 +49,6 @@
     <Compile Include="Barre.cs" />
     <Compile Include="Boule.cs" />
     <Compile Include="Briques.cs" />
-    <Compile Include="Creation.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="créer_niveau.cs">
       <SubType>Form</SubType>
     </Compile>
