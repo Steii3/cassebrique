@@ -33,13 +33,23 @@ namespace CasseBriques
         private int phase;
         private Barre barre;
         private Boule boule1;
-        private Mur mur;
+        public Mur mur;
         private int vie_max = 3;
         private int vie;
         private Timer Reset_Etat_Timer;
         private int niveau = 1;
         private int difficulté = 20;
         bool fini;
+        bool loadedLevel = false; // sert a choisir le nombre de niveau avant d'arreter la partie, si 0 alors mode infini
+
+        public void setMur(Mur unMur)
+        {
+            mur = unMur;
+        }
+        public void setloadedLevel(bool unchoix)
+        {
+            loadedLevel = unchoix;
+        }
 
         List<Boule> listeBoule = new List<Boule>();
        
@@ -56,6 +66,7 @@ namespace CasseBriques
         public void initialiseNiveau()
         {
             
+
             //reinitialise vie et etat negatif a la creation d'une nouvelle partie
             vie = vie_max;
             modifJeu(NORME);
@@ -68,15 +79,20 @@ namespace CasseBriques
             }
 
             // Création du mur de brique
-            if (difficulté != 100)
-            { for (int i = 1; i < niveau; i++)
+            if (loadedLevel == false)
+            {
+                if (difficulté != 100)
                 {
-                    difficulté += 10;
+                    for (int i = 1; i < niveau; i++)
+                    {
+                        difficulté += 10;
+                    }
                 }
-            }
 
-            mur = new Mur(difficulté);
-            mur.construit_random();
+                mur = new Mur(difficulté);
+                mur.construit_random();
+            }
+            
             
             // Délai entre 2 déplacements
             delai = COOL;
@@ -117,6 +133,7 @@ namespace CasseBriques
 
 
         }
+        
 
         void changeTickRate()
         {
@@ -341,12 +358,18 @@ namespace CasseBriques
 
                         case SORT:
                             action.Stop();
-                            MessageBox.Show(this, "C'est perdu ! vous avez tenu " + niveau + " niveau !", "Casse briques", MessageBoxButtons.OK);
+
+                            if (loadedLevel == true )
+                            { MessageBox.Show(this, "C'est perdu ! ", "Casse briques", MessageBoxButtons.OK); }
+                            else
+                            { MessageBox.Show(this, "C'est perdu ! vous avez tenu " + niveau + " niveau !", "Casse briques", MessageBoxButtons.OK); }
+                            
                             fini = true;
                             break;
 
                         case GAGNE:
                             action.Stop();
+
                             MessageBox.Show(this, "Bravo, vous fini le niveau " + niveau + " !\nLa difficulté augmente !", "Casse briques", MessageBoxButtons.OK);
                             niveau++;
                             initialiseNiveau();

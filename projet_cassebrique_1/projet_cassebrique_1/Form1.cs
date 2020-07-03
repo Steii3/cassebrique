@@ -5,13 +5,14 @@ using System.Reflection;
 
 namespace CasseBriques {
 	public partial class CB : Form {
-
+		
 
 		public CB() {
 			InitializeComponent();
 		}
 
 		private void nouveauToolStripMenuItem_Click(object sender, EventArgs e) {
+			EspaceJeu.setloadedLevel(false);
 			EspaceJeu.initialiseNiveau();
 		}
 
@@ -44,14 +45,22 @@ namespace CasseBriques {
 
 		private void LoadLVToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			string localdir = Assembly.GetExecutingAssembly().Location;
 			OpenFileDialog loader = new OpenFileDialog();
 			loader.Title = "lancer niveau";
-			loader.InitialDirectory = localdir;
-			loader.Filter = "binary file (*.bin) | All files (*.*)";
+			loader.InitialDirectory = Assembly.GetExecutingAssembly().Location;
+			loader.Filter = "binary file (*.bin) | *.bin";
 			loader.FilterIndex = 2;
 			loader.RestoreDirectory = true;
-			loader.ShowDialog();
+
+			if (loader.ShowDialog() == DialogResult.OK)
+			{
+				//Get the path of specified file
+				string FilePath = loader.FileName;
+				
+				EspaceJeu.setMur(Mur.BinarySerialization.ReadFromBinaryFile<Mur>(FilePath));
+				EspaceJeu.setloadedLevel(true);
+				EspaceJeu.initialiseNiveau();
+			}
 		}
 
 		private void EspaceJeu_Paint(object sender, PaintEventArgs e)
