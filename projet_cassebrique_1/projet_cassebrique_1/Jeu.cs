@@ -76,7 +76,7 @@ namespace CasseBriques
             }
 
             mur = new Mur(difficulté);
-            mur.construit();
+            mur.construit_random();
             
             // Délai entre 2 déplacements
             delai = COOL;

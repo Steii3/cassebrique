@@ -7,6 +7,7 @@ using System.Xml;
 using System.Xml.Serialization;
 namespace CasseBriques
 {
+    [Serializable]
     public class Mur
     {
         
@@ -57,6 +58,9 @@ namespace CasseBriques
                 case 4:
                     mur[unX, unY] = new Brique2boules();
                     break;
+                case 5:
+                    casse(unX, unY);
+                    break;
                 default:
                     mur[unX, unY] = new Brique();
                     break;
@@ -68,7 +72,7 @@ namespace CasseBriques
         }
 
 
-        public void construit()
+        public void construit_random()
         {
 
 
@@ -116,22 +120,57 @@ namespace CasseBriques
             
         }
 
-        public void Sauvegarder()
+        public void construit_empty()
         {
-            XmlSerializer xsSubmit = new XmlSerializer(typeof(Mur));
-            
-            var xml = "";
-
-            using (var sww = new StringWriter())
+            // Affectaion aléatoire de briques au mur
+            for (int l = 0; l < nbrcol; l++)
             {
-                using (XmlWriter writer = XmlWriter.Create(sww))
+                for (int c = 0; c < nbrligne; c++)
                 {
-                    xsSubmit.Serialize(writer, mur);
-                    xml = sww.ToString(); // Your XML
+                    mur[l, c] = new Brique();
+                    mur[l, c].positionne(c * (mur[l, c].getLargeur() + 1), l * (mur[l, c].getHauteur() + 1));
                 }
             }
         }
+
+
         
+        public static class BinarySerialization
+        {
+            /// <summary>
+            /// Writes the given object instance to a binary file.
+            /// <para>Object type (and all child types) must be decorated with the [Serializable] attribute.</para>
+            /// <para>To prevent a variable from being serialized, decorate it with the [NonSerialized] attribute; cannot be applied to properties.</para>
+            /// </summary>
+            /// <typeparam name="T">The type of object being written to the XML file.</typeparam>
+            /// <param name="filePath">The file path to write the object instance to.</param>
+            /// <param name="objectToWrite">The object instance to write to the XML file.</param>
+            /// <param name="append">If false the file will be overwritten if it already exists. If true the contents will be appended to the file.</param>
+            public static void WriteToBinaryFile<T>(string filePath, T objectToWrite, bool append = false)
+            {
+                using (Stream stream = File.Open(filePath, append ? FileMode.Append : FileMode.Create))
+                {
+                    var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+                    binaryFormatter.Serialize(stream, objectToWrite);
+                }
+            }
+
+            /// <summary>
+            /// Reads an object instance from a binary file.
+            /// </summary>
+            /// <typeparam name="T">The type of object to read from the XML.</typeparam>
+            /// <param name="filePath">The file path to read the object instance from.</param>
+            /// <returns>Returns a new instance of the object read from the binary file.</returns>
+            public static T ReadFromBinaryFile<T>(string filePath)
+            {
+                using (Stream stream = File.Open(filePath, FileMode.Open))
+                {
+                    var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+                    return (T)binaryFormatter.Deserialize(stream);
+                }
+            }
+        }
+
         public bool percute(int l, int c)
         {
 

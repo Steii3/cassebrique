@@ -4,6 +4,7 @@ using System.Drawing.Drawing2D;
 using System.Diagnostics;
 
 namespace CasseBriques {
+	[Serializable]
 	public class Brique {
 		protected const int SIMPLE=0;
 		protected int x, y, largeur, hauteur;
@@ -47,7 +48,7 @@ namespace CasseBriques {
 			motif.FillRectangle(new SolidBrush(couleur),x,y,largeur,hauteur);
 		}
 	}
-
+	[Serializable]
 	class BriqueRetourNorme : Brique {
   private const int NORME=1;
 
@@ -62,8 +63,8 @@ namespace CasseBriques {
     }
 
   }
-
-    class BriqueBouleRapide : Brique
+	[Serializable]
+	class BriqueBouleRapide : Brique
     {
         private const int RAPIDE = 2;
 
@@ -78,7 +79,7 @@ namespace CasseBriques {
             return RAPIDE;
         }
     }
-
+	[Serializable]
 	class BriqueBarreRetrecire : Brique
 	{
 		private const int BARRE_COURTE = 3;
@@ -94,7 +95,7 @@ namespace CasseBriques {
 			return BARRE_COURTE;
 		}
 	}
-
+	[Serializable]
 	class Brique3coup : Brique
 	{
 		private int vie_brique = 4;
@@ -131,6 +132,7 @@ namespace CasseBriques {
 
 		}
 	}
+	[Serializable]
 	class Brique2boules : Brique
 	{
 

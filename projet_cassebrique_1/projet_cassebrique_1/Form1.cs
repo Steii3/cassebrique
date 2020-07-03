@@ -46,9 +46,9 @@ namespace CasseBriques {
 		{
 			string localdir = Assembly.GetExecutingAssembly().Location;
 			OpenFileDialog loader = new OpenFileDialog();
-			loader.Title = "lancer niveau par .json";
+			loader.Title = "lancer niveau";
 			loader.InitialDirectory = localdir;
-			loader.Filter = "json file (*.json) | All files (*.*)";
+			loader.Filter = "binary file (*.bin) | All files (*.*)";
 			loader.FilterIndex = 2;
 			loader.RestoreDirectory = true;
 			loader.ShowDialog();
