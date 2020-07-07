@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
+using System.ComponentModel;
+using System.Runtime.Remoting.Messaging;
+
 namespace CasseBriques
 {
+
     [Serializable]
     public class Mur
     {
@@ -25,8 +30,14 @@ namespace CasseBriques
         {
             
         }
+
+
         Brique[,] mur = new Brique[nbrcol, nbrligne];
 
+        public void setPourcentBriqueSpeciale(int unPoucentage)
+        {
+            pourcentBriqueSpeciale = unPoucentage;
+        } 
         public int getNbBriques()
         {
             return nbBriques;
@@ -46,6 +57,18 @@ namespace CasseBriques
             }
         }
 
+        Type[] getListOfTypeBrique()
+        {
+            var listOfBriquesType = ( //prit ici :https://stackoverflow.com/questions/857705/get-all-derived-types-of-a-type
+                                      //permet de rendre toutes les classe derivé de Brique
+                from domainAssembly in AppDomain.CurrentDomain.GetAssemblies()
+                from assemblyType in domainAssembly.GetTypes()
+                where typeof(Brique).IsAssignableFrom(assemblyType)
+                select assemblyType).ToArray();
+            return listOfBriquesType;
+        }
+        
+
         //List<> listeBriques = new List<Brique>() { };
 
 
@@ -56,35 +79,51 @@ namespace CasseBriques
 
 
 
-        public void ChangeBrique(int unX, int unY,int Brique)
+        public void ChangeBrique(int unX, int unY,int nbrTypeBrique)
         {
-            switch (Brique) //a changer suivant le nombre de brique
+
+            //cree une brique de type choisit grace au nbrType
+            if (nbrTypeBrique == 99)
             {
-                
-                case 0:
-                    mur[unX, unY] = new BriqueRetourNorme();
-                    break;
-                case 1:
-                    mur[unX, unY] = new BriqueBouleRapide();
-                    break;
-                case 2:
-                    mur[unX, unY] = new BriqueBarreRetrecire();
-                    break;
-                case 3:
-                    mur[unX, unY] = new Brique3coup();
-                    break;
-                case 4:
-                    mur[unX, unY] = new Brique2boules();
-                    break;
-                case 5:
-                    casse(unX, unY);
-                    break;
-                default:
-                    mur[unX, unY] = new Brique();
-                    break;
-
-
+                casse(unX, unY);
             }
+            else
+            {
+                mur[unX, unY] = (Brique)Activator.CreateInstance(getListOfTypeBrique()[nbrTypeBrique]);
+            }
+            
+            //Brique test = new listOfBs[2];
+            
+
+
+            //switch (nbrTypeBrique) //a changer suivant le nombre de brique
+            //{
+                
+                
+            //    case 0:
+            //        mur[unX, unY] = new BriqueRetourNorme();
+            //        break;
+            //    case 1:
+            //        mur[unX, unY] = new BriqueBouleRapide();
+            //        break;
+            //    case 2:
+            //        mur[unX, unY] = new BriqueBarreRetrecire();
+            //        break;
+            //    case 3:
+            //        mur[unX, unY] = new Brique3coup();
+            //        break;
+            //    case 4:
+            //        mur[unX, unY] = new Brique2boules();
+            //        break;
+            //    case 5:
+            //        casse(unX, unY);
+            //        break;
+            //    default:
+            //        mur[unX, unY] = new Brique();
+            //        break;
+
+
+            //}
             
             mur[unX, unY].positionne(unY * (mur[unX, unY].getLargeur() + 1), unX * (mur[unX, unY].getHauteur() + 1));
         }
@@ -98,6 +137,7 @@ namespace CasseBriques
             Random R = new Random(); //choisit quel brique spéciale choisir
             Random RandomSpecial = new Random(); //choisit si la brique est normale ou spéciale
             Random RandomSpecialNegatif = new Random(); //choisit si la brique spéciale est positive ou negative
+            Type[] nbrTypeBriqueExistant = getListOfTypeBrique();
             for (int l = 0; l < nbrcol; l++)
             {
                 for (int c = 0; c < nbrligne; c++)
@@ -108,27 +148,8 @@ namespace CasseBriques
                     }
                     else
                     { //si la brique est spéciale, choisit aléatoirement laquel
-                        switch (R.Next(5)) //a changer suivant le nombre de brique
-                        {
-
-                            case 0:
-                                mur[l, c] = new BriqueRetourNorme();
-                                break;
-                            case 1:
-                                mur[l, c] = new BriqueBouleRapide();
-                                break;
-                            case 2:
-                                mur[l, c] = new BriqueBarreRetrecire();
-                                break;
-                            case 3:
-                                mur[l, c] = new Brique3coup();
-                                break;
-                            case 4:
-                                mur[l, c] = new Brique2boules();
-                                break;
-
-
-                        }
+                        
+                         mur[l, c] = (Brique)Activator.CreateInstance(nbrTypeBriqueExistant[R.Next(nbrTypeBriqueExistant.Length)]);
                     }
 
                     mur[l, c].positionne(c * (mur[l, c].getLargeur() + 1), l * (mur[l, c].getHauteur() + 1));
@@ -147,6 +168,7 @@ namespace CasseBriques
                 {
                     mur[l, c] = new Brique();
                     mur[l, c].positionne(c * (mur[l, c].getLargeur() + 1), l * (mur[l, c].getHauteur() + 1));
+                    
                 }
             }
         }

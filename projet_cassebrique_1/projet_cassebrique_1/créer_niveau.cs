@@ -26,22 +26,23 @@ namespace projet_cassebrique_1
 
         int x;
         int y;
-        int Brique = 99;
-        
+        int Brique = 1;
+        int pourcentageBriqueSpeciale = 25;
+       
         Mur mur;
         
         private void créer_niveau_Load(object sender, EventArgs e)
         {
 
         }
-
+        #region panel1
         private void panel_Mouseclick(object sender, MouseEventArgs e)
         {
             if (mur != null) 
             {
                 x = e.X / 18;
                 y = e.Y / 15;
-                Debug.WriteLine("x=" + x + " y=" + y);
+                //Debug.WriteLine("x=" + x + " y=" + y);
                 if (x <= 19 && y <= 9 && x >= 0 && y >= 0)
                 {
                     mur.ChangeBrique(y, x, Brique);
@@ -60,7 +61,7 @@ namespace projet_cassebrique_1
                 {
                     x = e.X / 18;
                     y = e.Y / 15;
-                    Debug.WriteLine("x=" + x + " y=" + y);
+                    //Debug.WriteLine("x=" + x + " y=" + y);
                     if (x <= 19 && y <= 9 && x >= 0 && y >= 0)
                     {
                         mur.ChangeBrique(y, x, Brique);
@@ -83,10 +84,10 @@ namespace projet_cassebrique_1
 
             ZoneJeu.Dispose();    
         }
-
+        #endregion
         private void btn_random_Click(object sender, EventArgs e)
         {
-            mur = new Mur(50);
+            mur = new Mur(pourcentageBriqueSpeciale);
             mur.construit_random();
             panel1.Invalidate();
         }
@@ -120,20 +121,7 @@ namespace projet_cassebrique_1
         }
 
 
-        private void btn_brique_RetourNorm_Click(object sender, EventArgs e)
-        { Brique = 0; }
-        private void btn_brique_rapide_Click(object sender, EventArgs e)
-        { Brique = 1; }
-        private void btn_brique_Retrecire_Click(object sender, EventArgs e)
-        { Brique = 2; }
-        private void btn_brique_3coup_Click(object sender, EventArgs e)
-        { Brique = 3; }
-        private void btn_brique_doubleBoules_Click(object sender, EventArgs e)
-        { Brique = 4; }
-        private void btn_brique_Click(object sender, EventArgs e)
-        { Brique = 99; }
-        private void btn_brique_Empty_Click(object sender, EventArgs e)
-        { Brique = 5; }
+       
 
         private void btn_Save_Click(object sender, EventArgs e)
         {
@@ -148,6 +136,27 @@ namespace projet_cassebrique_1
                 //Mur.XmlSerialization.WriteToXmlFile<Mur>(folderName + "/savedLV.xml", mur);
             }
             
+        }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listBox1.SelectedItem.ToString() == "Supprimer Boule")
+            {
+                Brique = 99;
+            }
+            else
+            {
+                Brique = listBox1.SelectedIndex;
+            }
+           
+            
+
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+            
+            pourcentageBriqueSpeciale = Convert.ToInt32(numericUpDown1.Value);
         }
     }
 }
